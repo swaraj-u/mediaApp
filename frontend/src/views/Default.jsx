@@ -32,7 +32,7 @@ export default function Default() {
   }
   
   return (
-    <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"}>
+    <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} p={4}>
         <Heading as="h3" mb={8}>What you want to do today?</Heading>
         <Flex>
             {!input && <Button onClick={() => setInput(prev => !prev)} mr={8}>Create Room</Button>}

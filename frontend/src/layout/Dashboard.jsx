@@ -93,34 +93,38 @@ export default function Dashboard() {
   return (
     <Box w={"100vw"} h={"100vh"} boxSizing='border-box'>
       <Flex w={"100%"} h={'100%'}>
-        <Box as="aside" w={"30vw"} h={'100vh'} bgColor={'gray.600'} flexGrow={0} boxSizing='border-box' p={"8"}>
-          <Heading as="h3" fontWeight={"thin"} color={"white"}>Hello, <Text as="span" fontWeight={"bold"} color={"white"}>{currentuser.username}</Text></Heading>
+        <Flex as="aside" flexDirection={'column'} justifyContent={'space-between'} w={{base:"35vw", md:"30vw"}} h={'100vh'} bgColor={'gray.600'} flexGrow={0} boxSizing='border-box' p={"8"}>
+        <Flex flexDirection={'column'}>
+          <Heading as="h3" fontWeight={"thin"} color={"white"} fontSize={"3xl"}>Hello, <Text as="span" whiteSpace={'nowrap'} fontWeight={"bold"} color={"white"} fontSize={{base:'xl', md:'2xl'}}>{currentuser.username}</Text></Heading>
           <Flex flexDirection={'column'}>
             <Text fontSize={"xl"} color={"white"} mt={8} mb={3}>Already Joined Rooms: </Text>
             {(currentuser.rooms || []).map((room, index) => {
               return (
               <Box key={index} mb={2}>
-                <Link to={`${room}/chat`}><Text color={'gray.50'} p={1} pl={2} borderRadius={'md'} bgColor={'gray.700'}fontSize={'xl'} fontWeight={'bold'}>{room}</Text></Link>
+                <Link to={`${room}/chat`}><Text color={'gray.50'} whiteSpace={'nowrap'} p={1} pl={2} borderRadius={'md'} bgColor={'gray.700'} fontSize={{base:'md', md:'2xl'}} fontWeight={'bold'}>{room}</Text></Link>
                 {
                 (users || []).filter(user => user.rooms.includes(room))
                       .map((user, index) => {
-                          return (user.username === currentuser.username) ? <Box as="li" key={index} color={'gray.200'} fontSize={'md'}>{user.username} (You)</Box>
-                       : <Box as="li" key={index} color={'gray.200'} fontSize={'md'}>{user.username}</Box>
+                          return (user.username === currentuser.username) ? <Box as="div" whiteSpace={'nowrap'} key={index} color={'gray.200'} fontSize={'md'}>{user.username} (You)</Box>
+                       : <Box as="div" key={index} color={'gray.200'} fontSize={'md'}>{user.username}</Box>
                       })}
               </Box>
               )
             })}
           </Flex>
-        </Box>
+          </Flex>
+          <Flex gap={1}>
+           <Box>{room && <Link to={`/dashboard/${id}`}><Button leftIcon={<ArrowBackIcon />} _hover={{boxShadow:"xl"}} bgColor={'gray.400'} colorScheme={"gray.100"} variant="solid"></Button></Link>}</Box>
+           <Button onClick={logoutFunction}><Text>Logout</Text></Button>
+           </Flex>
+        </Flex>
         <Flex direction={'column'} w={"100%"} h={'100%'}>
-          <Flex as="nav" w={"100%"} h={'60px'} padding={'4'} flexFlow={0} bgColor={'gray.500'} justifyContent={"space-between"} alignItems={"center"}>
-            <Box>{room && <Link to={`/dashboard/${id}`}><Button leftIcon={<ArrowBackIcon />} _hover={{boxShadow:"xl"}} bgColor={'gray.400'} colorScheme={"gray.100"} variant="solid"></Button></Link>}</Box>
-            <Box>
-              {room && <Link to={`/dashboard/${id}/${room}/chat`}><Button mr={4} bgColor={ currentTab==="chat" ? 'black' : 'white'} _hover={currentTab==="chat" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="chat" ? 'white' : 'black'}>Chat</Button></Link>}
-              {room && <Link to={`/dashboard/${id}/${room}/document`}><Button mr={4} bgColor={ currentTab==="document" ? 'black' : 'white'} _hover={currentTab==="document" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="document" ? 'white' : 'black'}>Document</Button></Link>}
-              {room && <Link to={`/dashboard/${id}/${room}/task_manager`}><Button mr={4} bgColor={ currentTab==="task_manager" ? 'black' : 'white'} _hover={currentTab==="task_manager" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="task_manager" ? 'white' : 'black'}>Task Manager</Button></Link>}
-            </Box>  
-            <Button onClick={logoutFunction}><Text>Logout</Text></Button>
+          <Flex as="nav" w={"100%"} h={'60px'} padding={'4'} flexFlow={0} bgColor={'gray.500'} justifyContent={"center"} alignItems={"center"}>
+            <Flex>
+              {room && <Link to={`/dashboard/${id}/${room}/chat`}><Button mr={4} fontSize={{base:'xs', md:'lg'}} bgColor={ currentTab==="chat" ? 'black' : 'white'} _hover={currentTab==="chat" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="chat" ? 'white' : 'black'}>Chat</Button></Link>}
+              {room && <Link to={`/dashboard/${id}/${room}/document`}><Button mr={4} fontSize={{base:'xs', md:'lg'}} bgColor={ currentTab==="document" ? 'black' : 'white'} _hover={currentTab==="document" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="document" ? 'white' : 'black'}>Document</Button></Link>}
+              {room && <Link to={`/dashboard/${id}/${room}/task_manager`}><Button mr={4} fontSize={{base:'xs', md:'lg'}} bgColor={ currentTab==="task_manager" ? 'black' : 'white'} _hover={currentTab==="task_manager" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="task_manager" ? 'white' : 'black'}>Task Manager</Button></Link>}
+            </Flex>  
           </Flex>
           <Box as="main" w={"100%"} h={"100%"} bgColor={'gray.400'}>
             <Outlet/>

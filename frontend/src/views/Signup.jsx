@@ -71,7 +71,7 @@ export default function Signup() {
   return (
     <Box bgColor={'gray.300'} width={"100vw"} height={"100vh"} boxSizing='border-box'>
       <Flex w={"100%"} h={"100%"} alignItems={"center"} justifyContent={"flex-start"}>
-        <Box bgColor={'gray.700'} w={"25vw"} h={"100vh"}>
+        <Box bgColor={'gray.700'} w={{base: "45vw", md:"30vw"}} h={"100vh"}>
           <Flex as="form" onSubmit={handleSubmit} color={"white"} w={"100%"} h={"100%"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} p={"15px"}>
             <Heading as="h3" color={"white"}><Text>Sign Up</Text></Heading>
             <FormControl isInvalid={isMatched} mb={8} isRequired>

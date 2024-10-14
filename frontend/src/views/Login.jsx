@@ -58,7 +58,7 @@ export default function Login() {
         <Box bgColor={'gray.400'} w={"1vw"} h={"100vh"}></Box>
         <Box bgColor={'gray.500'} w={"3vw"} h={"100vh"}></Box>
         <Box bgColor={'gray.600'} w={"5vw"} h={"100vh"}></Box>
-        <Box bgColor={'gray.700'} w={"30vw"} h={"100vh"}>
+        <Box bgColor={'gray.700'} w={{base: "45vw", md:"30vw"}} h={"100vh"}>
           <Flex as="form" onSubmit={handleSubmit} color={"white"} w={"100%"} h={"100%"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} p={"15px"}>
             <Heading as="h3" color={"white"}><Text>Login</Text></Heading>
             <FormControl isRequired mb="8">
@@ -71,7 +71,7 @@ export default function Login() {
               <Input type='password' placeholder='Enter your password' value={password} onChange={(e) => setPassword(e.target.value)}></Input>
             </FormControl>
             {error && (
-                    <Alert status="error" mb="4">
+                    <Alert status="error" mb="4" color={"black"}>
                         <AlertIcon />
                         {error}
                     </Alert>
