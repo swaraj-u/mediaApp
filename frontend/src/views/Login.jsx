@@ -12,7 +12,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
   const {isLoggedIn, setIsLoggedIn} = useData();
-  // const navigate = useNavigate();
 
   useEffect(() => {
     if(error){
@@ -32,7 +31,6 @@ export default function Login() {
       console.log("Login successful.");
       const loggedIn = await authUser();
       setIsLoggedIn(loggedIn);
-      // navigate(`/dashboard/${response.data._id}`);
     }
     }catch(err){
       
