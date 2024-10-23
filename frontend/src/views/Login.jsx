@@ -2,7 +2,7 @@ import { Alert, AlertIcon, Box, Button, Flex, FormControl, FormLabel, Heading, I
 import { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../util/constants';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useData } from '../util/contextFile';
 import { authUser } from '../util/authUser';
 
@@ -11,7 +11,8 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
-  const {isLoggedIn, setIsLoggedIn} = useData();
+  const {setIsLoggedIn, setHasForgotten} = useData();
+
 
   useEffect(() => {
     if(error){
@@ -29,22 +30,15 @@ export default function Login() {
 
     if(response.status === 200){
       console.log("Login successful.");
+      alert("Welcome email sent successfully.");
       const loggedIn = await authUser();
       setIsLoggedIn(loggedIn);
     }
     }catch(err){
       
       if(err.response){
-        if(err.response.status === 404){
           console.log(err.response.data);
           setError(err.response.data)
-        }else if(err.response.status === 401){
-          console.log(err.response.data);
-          setError(err.response.data)
-        }else{
-          console.log(err.response.data);
-          setError(err.response.data)
-        }
       } else{
         console.log('Error: ', err.message);
         setError(err.response.data)
@@ -60,6 +54,7 @@ export default function Login() {
         <Box bgColor={'gray.600'} w={"5vw"} h={"100vh"}></Box>
         <Box bgColor={'gray.700'} w={{base: "45vw", md:"30vw"}} h={"100vh"}>
           <Flex as="form" onSubmit={handleSubmit} color={"white"} w={"100%"} h={"100%"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} p={"15px"}>
+            <Text fontSize={'3xl'} className='inika-bold' mb={'4'} textAlign={'center'}>Welcome to Connectverse</Text>
             <Heading as="h3" color={"white"}><Text>Login</Text></Heading>
             <FormControl isRequired mb="8">
               <FormLabel>Username: </FormLabel>
@@ -76,6 +71,9 @@ export default function Login() {
                         {error}
                     </Alert>
                 )}
+            <Link to="/login/forgot"><Text mb='8' onClick={() => {
+              setHasForgotten(true)
+            }}>Forgot your password?</Text></Link>
             <Button type="submit" mb="8">Submit</Button>
             <Text color={'gray.200'}>Don&apos;t have an account? <Link to="/signup"><Text as="span" color={'white'}>Sign Up</Text></Link></Text>
           </Flex>

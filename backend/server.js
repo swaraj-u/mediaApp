@@ -14,6 +14,8 @@ import { Server } from 'socket.io';
 import http from 'http';
 import { Task } from './Models/Task.js';
 import { Message } from './Models/Message.js';
+import { sendOtp } from './Controllers/sendOtp.js';
+import { updatePassword } from './Controllers/updatePassword.js';
 
 dotenv.config();
 
@@ -112,6 +114,10 @@ app.get("/logout", (req,res) => {
 })
 
 app.post("/userdata", userData);
+
+app.post("/sendOTP", sendOtp);
+
+app.post("/updatePassword", updatePassword);
 
 app.post("/addroom", (req,res) => {
     const {room, id} = req.body;

@@ -12,7 +12,7 @@ import { io } from 'socket.io-client';
 
 
 export default function Dashboard() {
-  const {isLoggedIn, setIsLoggedIn, addRoom, setAddRoom} = useData();
+  const {setIsLoggedIn, addRoom} = useData();
   const {id, room} = useParams();
   const location = useLocation();
   const [socket, setSocket] = useState(null)
@@ -59,8 +59,9 @@ export default function Dashboard() {
           const users = response.data.users;
           setUser(user);
           setUsers(users);
-
+          if(socket){
           socket.emit("update-users");
+          }
         }
       }catch(err){
         if(err.response){

@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 
 export default function Default() {
-  const {isLoggedIn, setIsLoggedIn, addRoom, setAddRoom} = useData();
+  const {setAddRoom} = useData();
   const [ input, setInput ] = useState(false);
   const [ room, setRoom ] = useState('');
   const {id} = useParams();
