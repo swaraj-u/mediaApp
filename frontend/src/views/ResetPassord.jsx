@@ -89,6 +89,7 @@ export default function ResetPassord() {
                     onClick={handlePasswordToggle}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                     icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                    zIndex={10}
                 />
             </FormControl>
             <FormControl isInvalid={!passwordMatched} isRequired mb={8}>

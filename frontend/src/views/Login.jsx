@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Box, Button, Flex, FormControl, FormLabel, Heading, Input, Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, Button, Flex, FormControl, FormLabel, Heading, Input, Text, useToast } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../util/constants';
 import axios from 'axios';
@@ -13,6 +13,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const {setIsLoggedIn, setHasForgotten} = useData();
 
+  const toast = useToast();
 
   useEffect(() => {
     if(error){
@@ -30,7 +31,17 @@ export default function Login() {
 
     if(response.status === 200){
       console.log("Login successful.");
-      alert("Welcome email sent successfully.");
+      const showToast = () => {
+        toast({
+          title: "Success",
+          description: "Welcome to Connect-verse",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        })
+      }
+      showToast();
       const loggedIn = await authUser();
       setIsLoggedIn(loggedIn);
     }
@@ -52,7 +63,7 @@ export default function Login() {
         <Box bgColor={'gray.400'} w={"1vw"} h={"100vh"}></Box>
         <Box bgColor={'gray.500'} w={"3vw"} h={"100vh"}></Box>
         <Box bgColor={'gray.600'} w={"5vw"} h={"100vh"}></Box>
-        <Box bgColor={'gray.700'} w={{base: "45vw", md:"30vw"}} h={"100vh"}>
+        <Box bgColor={'gray.700'} w={{base: "90vw", sm:"45vw", md:"30vw"}} h={"100vh"}>
           <Flex as="form" onSubmit={handleSubmit} color={"white"} w={"100%"} h={"100%"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} p={"15px"}>
             <Text fontSize={'3xl'} className='inika-bold' mb={'4'} textAlign={'center'}>Welcome to Connectverse</Text>
             <Heading as="h3" color={"white"}><Text>Login</Text></Heading>

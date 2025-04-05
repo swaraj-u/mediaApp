@@ -3,3 +3,44 @@
     font-weight: 700;
     font-style: normal;
   }
+
+
+  .sidebar {
+    /* screen width above 500px */
+    position: relative;
+    transition: 1s all;
+    left:0;
+  }
+
+  .three-lines{
+    display:none;
+  }
+
+  .sidebar-open{
+    position: relative;
+    transition: 1s all;
+    left:0;
+  }
+
+  .close-icon{
+    display: none;
+  }
+  
+  /* screen width below 500px */
+  @media (max-width: 500px) {
+    .sidebar {
+      position:absolute;
+      left: -100vw;
+    }
+    .three-lines{
+      display:block;
+    }
+    .close-icon{
+      display: block;
+    }
+    .sidebar-open{
+      position:absolute;
+      left:0;
+      z-index:10;
+    }
+  }

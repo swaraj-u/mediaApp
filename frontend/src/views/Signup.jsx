@@ -1,4 +1,5 @@
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Text, IconButton, Checkbox } from '@chakra-ui/react';
+import { extendTheme } from "@chakra-ui/react";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BACKEND_URL } from '../util/constants';
@@ -15,6 +16,18 @@ export default function Signup() {
     const [passwordMatched, setPasswordMatched] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
+    const breakpoints = {
+      base: '0px',
+      sm: '480px',
+      medium: '500px',
+      md: '768px',
+      lg: '992px',
+      xl: '1280px',
+      '2xl': '1536px'
+    }
+
+    const theme = extendTheme({ breakpoints });
 
   useEffect(() => {
 
@@ -87,7 +100,7 @@ export default function Signup() {
   return (
     <Box bgColor={'gray.300'} width={"100vw"} height={"100vh"} boxSizing='border-box'>
       <Flex w={"100%"} h={"100%"} alignItems={"center"} justifyContent={"flex-start"}>
-        <Box bgColor={'gray.700'} w={{base: "45vw", md:"30vw"}} h={"100vh"}>
+        <Box bgColor={'gray.700'} w={{ base: "100vw", medium: "45vw", md: "30vw"}} h={"100vh"}>
           <Flex as="form" onSubmit={(e) => handleSubmit(e)} color={"white"} w={"100%"} h={"100%"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"} p={"15px"}>
             <Heading as="h3" color={"white"}><Text>Sign Up</Text></Heading>
             <FormControl isInvalid={isMatched} mb={8} isRequired>
@@ -103,7 +116,7 @@ export default function Signup() {
             </FormControl>
             <FormControl isRequired mb={8} position="relative">
               <FormLabel>Password: </FormLabel>
-              <Input  type={showPassword ? 'text' : 'password'} placeholder='Enter your password' value={password} 
+              <Input type={showPassword ? 'text' : 'password'} placeholder='Enter your password' value={password} 
               onChange={(e) => {
                 setPassword(e.target.value)
                 if(e.target.value !== confirmPassord){
@@ -119,6 +132,7 @@ export default function Signup() {
                     onClick={handlePasswordToggle}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                     icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                    zIndex={10}
                 />
             </FormControl>
             <FormControl isInvalid={!passwordMatched} isRequired mb={8}>

@@ -6,7 +6,7 @@ import { useData } from '../util/contextFile';
 import { authUser } from '../util/authUser';
 import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { io } from 'socket.io-client';
 
 
@@ -19,7 +19,8 @@ export default function Dashboard() {
   const [ currentTab, setCurrentTab ] = useState("");
   const [ currentuser, setUser ] = useState({});
   const [ users, setUsers ] = useState([]);
-
+  const [ threeLinesClicked, setThreeLinesClicked ] = useState(false);
+  
   useEffect(() => {
     const s = io(BACKEND_URL)
     s.on("connect",() =>{
@@ -94,7 +95,8 @@ export default function Dashboard() {
   return (
     <Box w={"100vw"} h={"100vh"} boxSizing='border-box'>
       <Flex w={"100%"} h={'100%'}>
-        <Flex as="aside" flexDirection={'column'} justifyContent={'space-between'} w={{base:"35vw", md:"30vw"}} h={'100vh'} bgColor={'gray.600'} flexGrow={0} boxSizing='border-box' p={"8"}>
+        <Flex className={threeLinesClicked ? "sidebar-open" : "sidebar"} as="aside" flexDirection={'column'} justifyContent={'space-between'} w={{base:"175.55px", md:"30vw"}} h={'100vh'} bgColor={'gray.600'} flexGrow={0} boxSizing='border-box' p={"8"}>
+        <Box className="close-icon" onClick={() => setThreeLinesClicked(false)}><CloseIcon /></Box>
         <Flex flexDirection={'column'}>
           <Heading as="h3" fontWeight={"thin"} color={"white"} fontSize={"3xl"}>Hello, <Text as="span" whiteSpace={'nowrap'} fontWeight={"bold"} color={"white"} fontSize={{base:'xl', md:'2xl'}}>{currentuser.username}</Text></Heading>
           <Flex flexDirection={'column'}>
@@ -121,6 +123,7 @@ export default function Dashboard() {
         </Flex>
         <Flex direction={'column'} w={"100%"} h={'100%'}>
           <Flex as="nav" w={"100%"} h={'60px'} padding={'4'} flexFlow={0} bgColor={'gray.500'} justifyContent={"center"} alignItems={"center"}>
+            <Box className="three-lines" paddingRight={"15px"} onClick={() => setThreeLinesClicked(true)}>{!threeLinesClicked && <HamburgerIcon boxSize={6}/>}</Box>
             <Flex>
               {room && <Link to={`/dashboard/${id}/${room}/chat`}><Button mr={4} fontSize={{base:'xs', md:'lg'}} bgColor={ currentTab==="chat" ? 'black' : 'white'} _hover={currentTab==="chat" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="chat" ? 'white' : 'black'}>Chat</Button></Link>}
               {room && <Link to={`/dashboard/${id}/${room}/document`}><Button mr={4} fontSize={{base:'xs', md:'lg'}} bgColor={ currentTab==="document" ? 'black' : 'white'} _hover={currentTab==="document" ? { bg: "black", boxShadow: "xl"} : { bg: "white", boxShadow: "xl"}} color={currentTab==="document" ? 'white' : 'black'}>Document</Button></Link>}
