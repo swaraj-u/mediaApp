@@ -1,4 +1,4 @@
-import {Box, Button, Flex, FormControl, FormLabel, Input, Text} from '@chakra-ui/react';
+import {Box, Button, Flex, FormControl, FormLabel, Input, Text, Spinner} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -9,7 +9,12 @@ export default function TaskManager() {
   const [task, setTask] = useState("");
   const [deadline, setDeadline] = useState(null);
   const [taskList, setTaskList] = useState([]);
-  const [socket, setSocket] = useState(null)
+  const [socket, setSocket] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [taskList])
 
   useEffect(() => {
     const s = io("http://52.66.252.158", {
@@ -71,7 +76,10 @@ export default function TaskManager() {
 
     <Flex w={"50%"}flexDirection={'column'} ml={4} alignItems={"flex-start"}>
     <Text textAlign={'center'}fontSize={'xl'} fontWeight={'bold'} mb={3}>Tasks List: </Text>
-    { taskList.map((task,index) => {
+    {
+      isLoading ? <Spinner size="xl" color="gray.500" />
+      : <>
+      { taskList.map((task,index) => {
       return(
         <Flex key={index} flexDirection={'row'} bgColor={'gray.500'} p={2} borderRadius={'md'} mb={2}>
           <Box>
@@ -88,6 +96,8 @@ export default function TaskManager() {
         </Flex>
       )
     })}
+      </>
+    }
     </Flex>
    </Flex>
   )

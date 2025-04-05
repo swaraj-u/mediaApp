@@ -1,4 +1,4 @@
-import { Box, Flex, FormControl, Input, Text } from "@chakra-ui/react";
+import { Box, Flex, FormControl, Input, Text, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ArrowForwardIcon } from '@chakra-ui/icons';
@@ -11,6 +11,11 @@ export default function Chat() {
   const [currentChat, setCurrentChat] = useState("");
   const [socket, setSocket] = useState(null);
   const [messageList, setMessageList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [messageList])
 
   useEffect(() => {
     const s = io("http://52.66.252.158", {
@@ -75,7 +80,10 @@ export default function Chat() {
         </FormControl>
       </Box>
       <Flex w={"100%"} h={"100%"} flexDirection={'column'} alignItems={"center"} justifyContent={"flex-start"}>
-        {messageList.map((message,index) => {
+        {
+          isLoading ? <Spinner size="xl" color="gray.500" />
+          : <>
+          {messageList.map((message,index) => {
           return (
             (message.username === currentUser) ?
           <Box key={index} alignSelf={"flex-end"}  mt={2} mb={2} w={"fit-content"} bgColor={'gray.500'} p={2} borderRadius={'md'} color="white">
@@ -88,6 +96,8 @@ export default function Chat() {
         </Box>
           )
         })}
+          </>
+        }
       </Flex>
     </Flex>
   )
