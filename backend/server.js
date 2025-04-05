@@ -108,7 +108,7 @@ app.post("/add/user", async (req,res) => {
 app.get("/logout", (req,res) => {
     res.clearCookie('USER_LOGGED_IN', {
         httpOnly: true,
-        secure: true
+        secure: false
     });
     res.status(200).send("Logged out successfully.")
 })
