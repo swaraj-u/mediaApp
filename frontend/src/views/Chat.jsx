@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
-import { BACKEND_URL } from "../util/constants";
 import { io } from "socket.io-client";
 
 export default function Chat() {
@@ -14,14 +13,17 @@ export default function Chat() {
   const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    const s = io(BACKEND_URL + "/")
-      s.on("connect",() => {
-        console.log("doc connected.");
-      });
-      setSocket(s)
-      return () => {
-        s.disconnect()
-      }
+    const s = io("http://52.66.252.158", {
+      path: "/api/socket.io",
+      withCredentials: true
+    });
+    s.on("connect",() => {
+      console.log("doc connected.");
+    });
+    setSocket(s)
+    return () => {
+      s.disconnect()
+    }
   },[])
 
   useEffect(() => {

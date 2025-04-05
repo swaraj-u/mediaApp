@@ -1,7 +1,6 @@
 import {Box, Button, Flex, FormControl, FormLabel, Input, Text} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BACKEND_URL } from '../util/constants';
 import { io } from 'socket.io-client';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
@@ -13,14 +12,17 @@ export default function TaskManager() {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    const s = io(BACKEND_URL + "/")
-      s.on("connect",() => {
-        console.log("doc connected.");
-      });
-      setSocket(s)
-      return () => {
-        s.disconnect()
-      }
+    const s = io("http://52.66.252.158", {
+            path: "/api/socket.io",
+            withCredentials: true
+          });
+    s.on("connect",() => {
+      console.log("doc connected.");
+    });
+    setSocket(s)
+    return () => {
+      s.disconnect()
+    }
   },[])
 
   useEffect(() => {

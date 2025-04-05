@@ -37,8 +37,9 @@ const server = http.createServer(app);
 
 const io = new Server(server,{
     cors: {
-        origin: "*",
-        methods: ['GET', 'POST', 'DELETE']
+        origin: "http://52.66.252.158",
+        methods: ['GET', 'POST', 'DELETE'],
+        credentials: true
     }
 });
 

@@ -3,7 +3,6 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
 import { useParams } from 'react-router-dom';
-import { BACKEND_URL } from '../util/constants';
 import { Box } from '@chakra-ui/react';
 
 const SAVE_INTERVAL_MS = 1000
@@ -33,7 +32,10 @@ export default function Docs() {
     const [quill, setQuill] = useState()
 
     useEffect(() => {
-      const s = io(BACKEND_URL + "/")
+      const s = io("http://52.66.252.158", {
+        path: "/api/socket.io",
+        withCredentials: true
+      });
       s.on("connect",() => {
         console.log("doc connected.");
       });
