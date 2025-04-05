@@ -13,7 +13,7 @@ export default function TaskManager() {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    const s = io(BACKEND_URL)
+    const s = io(BACKEND_URL + "/")
       s.on("connect",() => {
         console.log("doc connected.");
       });

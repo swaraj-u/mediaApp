@@ -33,7 +33,7 @@ export default function Docs() {
     const [quill, setQuill] = useState()
 
     useEffect(() => {
-      const s = io(BACKEND_URL)
+      const s = io(BACKEND_URL + "/")
       s.on("connect",() => {
         console.log("doc connected.");
       });

@@ -14,7 +14,7 @@ export default function Chat() {
   const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    const s = io(BACKEND_URL)
+    const s = io(BACKEND_URL + "/")
       s.on("connect",() => {
         console.log("doc connected.");
       });
