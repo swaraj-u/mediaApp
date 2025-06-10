@@ -13,12 +13,13 @@ export default function Chat() {
   const [messageList, setMessageList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [messageList])
+  // useEffect(() => {
+  //   setIsLoading(false);
+  // }, [messageList])
+
 
   useEffect(() => {
-    const s = io("http://52.66.252.158", {
+    const s = io("http://13.204.80.70", {
       path: "/api/socket.io",
       withCredentials: true
     });
@@ -49,7 +50,8 @@ export default function Chat() {
     if(socket){
     socket.on("get-messageList", (messageList, roomId) => {
       if(roomId === room){
-      setMessageList(messageList);
+        setMessageList(messageList);
+        setIsLoading(false);
       }
     });
   }
@@ -67,8 +69,8 @@ export default function Chat() {
 
   return (
     <Flex w={"100%"} h={"100%"} flexDirection={'column-reverse'} alignItems={"center"} justifyContent={"flex-start"} p={4}>
-      <Box as="form" w={"100%"} onSubmit={(e) => submitMessage(e)}>
-        <FormControl isRequired w={"100%"} display={"flex"}>
+      <Box as="form" w={"100%"} display={"flex"} alignItems={"center"} onSubmit={(e) => submitMessage(e)}>
+        <FormControl isRequired w={"100%"} display={"flex"} ml="2">
           <Input w={"100%"} type="text" placeholder="Type something..." value={currentChat} onChange={(e) => {setCurrentChat(e.target.value)}}></Input>
           <IconButton
           type="submit"
@@ -79,24 +81,51 @@ export default function Chat() {
           />
         </FormControl>
       </Box>
-      <Flex w={"100%"} h={"100%"} flexDirection={'column'} alignItems={"center"} justifyContent={"flex-start"}>
+      <Flex w="100%" h="100%" flexDirection="column" alignItems="center" justifyContent="flex-start">
         {
-          isLoading ? <Spinner size="xl" color="gray.500" />
-          : <>
-          {messageList.map((message,index) => {
-          return (
-            (message.username === currentUser) ?
-          <Box key={index} alignSelf={"flex-end"}  mt={2} mb={2} w={"fit-content"} bgColor={'gray.500'} p={2} borderRadius={'md'} color="white">
-            <Text fontSize={'xs'} color={'white'}>You</Text>
-            <Text>{message.message}</Text>
-          </Box>
-          : <Box key={index} alignSelf={"flex-start"} mt={2} mb={2} w={"fit-content"} bgColor={'gray.500'} p={2} borderRadius={'md'} color="white">
-          <Text fontSize={'xs'} color={'white'}>{message.username}</Text>
-          <Text>{message.message}</Text>
-        </Box>
+          isLoading ? (
+            <Spinner size="xl" color="gray.500" />
+          ) : (
+            messageList.length === 0 ? (
+              <Box width="100%" h="100%" display="flex" justifyContent={"center"} alignItems={"flex-end"}>
+                <Text mt={4} fontSize="lg" color="gray.600" mb={4}>Start with a Hi!👋</Text>
+              </Box>
+            ) : (
+              messageList.map((message, index) => (
+                message.username === currentUser ? (
+                  <Box
+                    key={index}
+                    alignSelf="flex-end"
+                    mt={2}
+                    mb={2}
+                    w="fit-content"
+                    bgColor="gray.500"
+                    p={2}
+                    borderRadius="md"
+                    color="white"
+                  >
+                    <Text fontSize="xs" color="white">You</Text>
+                    <Text>{message.message}</Text>
+                  </Box>
+                ) : (
+                  <Box
+                    key={index}
+                    alignSelf="flex-start"
+                    mt={2}
+                    mb={2}
+                    w="fit-content"
+                    bgColor="gray.500"
+                    p={2}
+                    borderRadius="md"
+                    color="white"
+                  >
+                    <Text fontSize="xs" color="white">{message.username}</Text>
+                    <Text>{message.message}</Text>
+                  </Box>
+                )
+              ))
+            )
           )
-        })}
-          </>
         }
       </Flex>
     </Flex>

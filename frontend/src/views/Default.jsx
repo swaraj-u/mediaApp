@@ -35,13 +35,13 @@ export default function Default() {
     <Flex w={"100%"} h={"100%"} justifyContent={"center"} alignItems={"center"} flexDirection={"column"} p={4}>
         <Heading as="h3" mb={8}>What you want to do today?</Heading>
         <Flex>
-            {!input && <Button onClick={() => setInput(prev => !prev)} mr={8}>Create Room</Button>}
-            {!input && <Button onClick={() => setInput(prev => !prev)}>Join Room</Button>}
+            {!input && <Button onClick={() => setInput(prev => !prev)} mr={8}>Create Group</Button>}
+            {!input && <Button onClick={() => setInput(prev => !prev)}>Join Group</Button>}
             { input && <Box as="form" onSubmit={addRoomFunction}>
             <FormControl>
-              <FormLabel>Room Name: </FormLabel>
+              <FormLabel>Group Name: </FormLabel>
               <Input type="text" placeholder="Type room name..." value={room} onChange={(e) =>setRoom(e.target.value)}></Input>
-              <Button type="submit" mt={4}>Add Room</Button>
+              <Button type="submit" mt={4}>Add Group</Button>
             </FormControl>
             </Box>}
         </Flex>

@@ -17,7 +17,7 @@ export default function TaskManager() {
   }, [taskList])
 
   useEffect(() => {
-    const s = io("http://52.66.252.158", {
+    const s = io("http://13.204.80.70", {
             path: "/api/socket.io",
             withCredentials: true
           });
@@ -58,8 +58,8 @@ export default function TaskManager() {
   }
 
   return (
-   <Flex w={"100%"} h={"100%"} flexDirection={'row'} justifyContent={"space-evenly"} alignItems={"flex-start"} p={4}>
-    <Box w={"40%"}>
+   <Flex w={"100%"} h={"100%"} flexDirection={{base:'column', md:'row'}} justifyContent={"space-evenly"} alignItems={{ base: 'center' , md:"flex-start"}} p={4}>
+    <Box w={{base:"100%", md:"40%"}}>
       <Text textAlign={'center'}fontSize={'xl'} fontWeight={'bold'}>Task Manager</Text>
       <Flex as="form" flexDirection={'column'} onSubmit={(e) => addTaskFunction(e)}>
         <FormControl isRequired>
@@ -67,38 +67,44 @@ export default function TaskManager() {
           <Input type="text" placeholder="Write your task here.." value={task} onChange={(e) => setTask(e.target.value)}></Input>
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>Deadline: </FormLabel>
-          <Input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)}></Input>
+          <FormLabel mt="2">Deadline: </FormLabel>
+          <Input type="date" value={deadline} placeholder="Pick a date..." onChange={(e) => setDeadline(e.target.value)}></Input>
         </FormControl>
         <Button type="submit" mt={4}>Add Task</Button>
       </Flex>
     </Box>
 
-    <Flex w={"50%"}flexDirection={'column'} ml={4} alignItems={"flex-start"}>
-    <Text textAlign={'center'}fontSize={'xl'} fontWeight={'bold'} mb={3}>Tasks List: </Text>
+    <Flex w={{ base: "100%", md: "50%" }} flexDirection={'column'} ml={4} alignItems={{ base: "center", md: "flex-start" }}>
+    <Text textAlign={'center'} fontSize={'xl'} fontWeight={'bold'} mb={3}>Tasks List:</Text>
     {
-      isLoading ? <Spinner size="xl" color="gray.500" />
-      : <>
-      { taskList.map((task,index) => {
-      return(
-        <Flex key={index} flexDirection={'row'} bgColor={'gray.500'} p={2} borderRadius={'md'} mb={2}>
-          <Box>
-            <Text><Text as="span" fontWeight={'bold'}>Task: </Text>{task.task}</Text>
-            <Text><Text as="span" fontWeight={'bold'}>Deadline: </Text>{new Date(task.deadline).toLocaleDateString()}</Text>
-          </Box>
-          <IconButton
-            onClick={() => deleteTaskFunction(task._id, room)}
-            aria-label="Delete"
-            icon={<DeleteIcon />}
-            colorScheme="gray"
-            ml={3}
-          />
-        </Flex>
+      isLoading ? <Spinner size="xl" color="gray.500" /> : (
+        <>
+          {
+            taskList.length === 0 ? (
+              <Text fontStyle="italic" color="gray.600">No Task Remaining!</Text>
+            ) : (
+              taskList.map((task, index) => (
+                <Flex key={index} flexDirection={'row'} bgColor={'gray.500'} p={2} borderRadius={'md'} mb={2}>
+                  <Box>
+                    <Text><Text as="span" fontWeight={'bold'}>Task: </Text>{task.task}</Text>
+                    <Text><Text as="span" fontWeight={'bold'}>Deadline: </Text>{new Date(task.deadline).toLocaleDateString()}</Text>
+                  </Box>
+                  <IconButton
+                    onClick={() => deleteTaskFunction(task._id, room)}
+                    aria-label="Delete"
+                    icon={<DeleteIcon />}
+                    colorScheme="gray"
+                    ml={3}
+                  />
+                </Flex>
+              ))
+            )
+          }
+        </>
       )
-    })}
-      </>
     }
-    </Flex>
+  </Flex>
+
    </Flex>
   )
 }

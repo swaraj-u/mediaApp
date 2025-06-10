@@ -37,7 +37,7 @@ const server = http.createServer(app);
 
 const io = new Server(server,{
     cors: {
-        origin: "http://52.66.252.158",
+        origin: "http://13.204.80.70",
         methods: ['GET', 'POST', 'DELETE'],
         credentials: true
     }
@@ -120,6 +120,37 @@ app.post("/sendOTP", sendOtp);
 
 app.post("/updatePassword", updatePassword);
 
+app.post("/exit-group", (req, res) => {
+    const {room, id} = req.body;
+    console.log("Room: ", room);
+    console.log("Id: ", id);
+    User.findOne({_id: id})
+    .then(async user => {
+        try{
+            if(!user){
+                res.send(404).send("User not found.")
+            }else{
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: id },      
+                    {
+                        $pull: {
+                            rooms: room
+                        }
+                    },  
+                    { new: true });             
+                if(updatedUser){
+                    res.status(200).send("Deleted room.")
+                }else{  
+                    res.status(400).send("Bad Request.")
+                }
+            }
+        }catch(err){
+            console.log(err)
+            res.status(500).send("Internal server error.");
+        }
+    })
+})
+
 app.post("/addroom", (req,res) => {
     const {room, id} = req.body;
 
@@ -134,11 +165,16 @@ app.post("/addroom", (req,res) => {
                 }else{
                     const updatedUser = await User.findOneAndUpdate(
                         { _id: id },      
-                        { $push: { rooms: room } },  
+                        {
+                            $push: {
+                                rooms: room,
+                                adminOf: room
+                            }
+                        },  
                         { new: true });             
                     if(updatedUser){
                         res.status(201).send("Added room.")
-                    }else{
+                    }else{  
                         res.status(400).send("Bad Request.")
                     }
                 }
