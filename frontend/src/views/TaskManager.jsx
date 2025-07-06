@@ -17,7 +17,7 @@ export default function TaskManager() {
   }, [taskList])
 
   useEffect(() => {
-    const s = io("http://13.204.80.70", {
+    const s = io("http://13.204.69.105", {
             path: "/api/socket.io",
             withCredentials: true
           });
