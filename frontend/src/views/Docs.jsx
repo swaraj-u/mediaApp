@@ -32,7 +32,7 @@ export default function Docs() {
     const [quill, setQuill] = useState()
 
     useEffect(() => {
-      const s = io("http://13.204.69.105", {
+      const s = io("http://35.154.54.168", {
         path: "/api/socket.io",
         withCredentials: true
       });

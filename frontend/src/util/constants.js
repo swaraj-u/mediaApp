@@ -1,3 +1,3 @@
-export const BACKEND_URL = "http://13.204.69.105/api";
-export const FRONTEND_URL = "http://13.204.69.105/";
+export const BACKEND_URL = "http://35.154.54.168/api";
+export const FRONTEND_URL = "http://35.154.54.168/";
 
